@@ -80,11 +80,11 @@ void exit_builtin(char **args, int wordCount,
  */
 int _setenv(char *name, char *value)
 {
-	int size, i = 0;
+	int len, i = 0;
 	char *env, *token, *env_new;
 
-	size = _strlen(name) + _strlen(value) + 2;
-	env_new = (char *)malloc(sizeof(char) * size);
+	len = _strlen(name) + _strlen(value) + 2;
+	env_new = (char *)malloc(sizeof(char) * len);
 	if (env_new != NULL)
 	{
 		_strcpy(env_new, name);
