@@ -6,7 +6,7 @@ static sl_list *head;
  * @key: variable name
  * @add: address
  *
- * Return: list
+ * Return: sl_list  ptr
  */
 sl_list *insert_node(char *key, char *add)
 {

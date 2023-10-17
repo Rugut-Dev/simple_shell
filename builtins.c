@@ -103,7 +103,7 @@ int _setenv(char *name, char *value)
 				break;
 			}
 			if ((token != NULL && _strcmp(token, name) != 0)
-					&& environ[i + 1] == NULL)
+			    && environ[i + 1] == NULL)
 			{
 				environ[i + 1] = _strdup(env_new);
 
@@ -137,26 +137,22 @@ int _unsetenv(const char *name)
 	{
 		env = _strdup(environ[i]);
 		token = strtok(env, "=");
-		printf("token: %s\n", token);
+
 		if (_strcmp(token, name) == 0)
 		{
-			printf("token: %s\n", token);
-/*			delete_node(name);*/
 			while (environ[i + 1] != NULL)
 			{
 				environ[i] = environ[i + 1];
-				printf("WE GOT PRINTED: %s\n", environ[i]);
+
 				i++;
 			}
 			environ[i] = NULL;
 			delete_node(name);
-			free(env);
-/*			break;*/
 		}
 		i++;
 		free(env);
 	}
-	if (environ[i] == NULL)
+	if (environ[i] != NULL)
 	{
 		perror("unsetenv failed terribly");
 	}
@@ -172,15 +168,25 @@ void cd(char *path)
 {
 	char previous_path[1000], *errMsg1, *errMsg2;
 
-	if (path == NULL || _strcmp(path, "~") == 0
-	    || _strcmp(path, "cd ~") == 0)
+	if (path == NULL || _strcmp(path, "~") == 0)
 	{
 		path = _getenv("HOME");
+		if (path == NULL)
+			return;
 	} else if (_strcmp(path, "-") == 0)
 	{
 		path = _getenv("OLDWD");
+		if (path != NULL)
+		{
+			_print(path);
+			_print("\n");
+		} else
+		{
+			errMsg1 = "chgdir: No previous directory\n";
+			write(STDERR_FILENO, errMsg1, strlen(errMsg1));
+			return;
+		}
 	}
-
 	if (path != NULL)
 	{
 		getcwd(previous_path, sizeof(previous_path));
@@ -191,15 +197,13 @@ void cd(char *path)
 		} else
 		{
 			errMsg1 = "./hsh: 1: cd: can't cd to ";
-
 			write(STDERR_FILENO, errMsg1, _strlen(errMsg1));
 			write(STDERR_FILENO, path, _strlen(path));
-			write(STDERR_FILENO, "\n", 2);
+			write(STDERR_FILENO, "\n", 1);
 		}
 	} else
 	{
 		errMsg2 = "chgdir: Invalid path or environment variable not set\n";
-
 		write(STDERR_FILENO, errMsg2, _strlen(errMsg2));
 	}
 }

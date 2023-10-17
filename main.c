@@ -13,7 +13,7 @@ int main(void)
 	    wordCnt, exitStatus = 0, prevExitStatus = 0;
 
 	if (int_active == 1)
-		_print("($) ");
+		_print("$ ");
 	while (getline(&lineptr, &len, stdin) != -1)
 	{
 		if (isEmptyStr(lineptr) == 0)
@@ -30,7 +30,7 @@ int main(void)
 			explicit_free(&wrds, wordCnt);
 		}
 		if (int_active == 1)
-			_print("($) ");
+			_print("$ ");
 		prevExitStatus = exitStatus;
 	}
 	if (lineptr)
